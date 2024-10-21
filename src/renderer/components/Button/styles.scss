@@ -1,0 +1,41 @@
+@import '../../../../assets/colors.module.scss';
+
+.btnContainer {
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+  padding: 10px 24px !important;
+  border-radius: 8px !important;
+}
+
+.fluid {
+  width: 100%;
+  justify-content: center;
+}
+
+.black-button {
+  border: none !important;
+  background-color: $black !important;
+
+  &:hover {
+    background-color: $hover !important;
+  }
+}
+
+.green-button {
+  border: none !important;
+  background-color: $green !important;
+
+  &:hover {
+    background-color: $black !important;
+  }
+}
+
+.cancel-button {
+  border: none !important;
+  background-color: $primary !important;
+
+  &:hover {
+    background-color: $black !important;
+  }
+}

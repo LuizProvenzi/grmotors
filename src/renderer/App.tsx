@@ -1,48 +1,27 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import { db } from '../firebase';
-import { collection, getDocs } from 'firebase/firestore';
-
-interface Car {
-  brand: string;
-  model: string;
-  year: number;
-}
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import './App.scss';
+import Cars from './pages/Cars';
+import Header from './components/Header';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import AddCar from './pages/AddCar';
+import CarDetails from './pages/CarDetails';
 
 export default function App() {
-  const [cars, setCars] = useState<Car[]>([]);
-
-  useEffect(() => {
-    const fetchCars = async () => {
-      try {
-        const carsCollection = collection(db, 'cars');
-        const carSnapshot = await getDocs(carsCollection);
-        const carList = carSnapshot.docs.map((doc) => ({
-          ...doc.data(),
-        })) as Car[];
-        setCars(carList);
-      } catch (error) {
-        console.error('Error fetching cars:', error);
-      }
-    };
-
-    fetchCars();
-  }, []);
-
   return (
-    <div>
-      <div>oi</div>
+    <div className="layout">
+      <Router>
+        <Header />
 
-      <div>
-        <h1>Cars List teste</h1>
-        <ul>
-          {cars.map((car) => (
-            <li key={car.year}>
-              {car.model} ({car.year})
-            </li>
-          ))}
-        </ul>
-      </div>
+        <div className="content">
+          <Routes>
+            <Route path="/cars" element={<Cars />} />
+            <Route path="/addCar/:id" element={<AddCar />} />
+            <Route path="/car/:id" element={<CarDetails />} />
+            <Route path="/garage" element={<div>garagem</div>} />
+            <Route path="/exports" element={<div>relatorio</div>} />
+          </Routes>
+        </div>
+      </Router>
     </div>
   );
 }

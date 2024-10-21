@@ -1,0 +1,23 @@
+@import '../../../../assets/colors.module.scss';
+
+.bar {
+  background-color: $black !important;
+  height: 15vh;
+  position: fixed;
+  z-index: 1100;
+  width: 100%;
+}
+
+.title {
+  padding: 20px;
+}
+
+.item {
+  padding: 20px 28px;
+  cursor: pointer;
+  width: 130px;
+
+  &:hover {
+    background-color: $hover;
+  }
+}

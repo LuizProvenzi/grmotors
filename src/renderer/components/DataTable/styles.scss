@@ -1,0 +1,47 @@
+@import '../../../../assets/colors.module.scss';
+
+.custom-table {
+  width: 1010px !important;
+  table-layout: auto;
+  background-color: $background !important;
+
+  border-radius: 10px !important;
+  overflow: hidden;
+
+  th,
+  td {
+    background-color: $background !important;
+    border-top: 1px solid $black !important;
+    padding: 14px 16px;
+    vertical-align: middle;
+    max-width: 200px;
+
+    p {
+      font-size: 20px !important;
+    }
+  }
+
+  th {
+    border: none;
+    color: $black !important;
+    background-color: $gray !important;
+
+    p {
+      color: $black !important;
+      font-size: 20px !important;
+    }
+  }
+
+  tbody tr {
+    border-bottom: 1px solid $black !important;
+  }
+}
+
+.background-table {
+  background-color: $background !important;
+  color: $white !important;
+}
+
+.last-index {
+  text-align: end !important;
+}

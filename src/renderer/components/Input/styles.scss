@@ -1,0 +1,77 @@
+@import '../../../../assets/colors.module.scss';
+
+.icon {
+  height: 24px;
+  width: 24px;
+  position: absolute;
+  top: 45%;
+  right: 5px;
+  cursor: pointer;
+}
+
+.custom-file-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.custom-file-button {
+  background-color: $black;
+  color: $white;
+  height: 43px;
+  width: 290px;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  text-align: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:hover {
+    background-color: $hover !important;
+  }
+
+  &:disabled {
+    background-color: $hover !important;
+    color: $background !important;
+    cursor: not-allowed;
+  }
+}
+
+.small-input {
+  width: 205px !important;
+}
+
+.file-input-hidden {
+  display: none;
+}
+
+.custom-input {
+  background-color: $black;
+  border: 1px solid $black !important;
+  color: $white;
+  height: 43px;
+  border-radius: 8px !important;
+  font-size: 16px !important;
+  padding: 6px 16px;
+  gap: 10px;
+  margin: 0;
+
+  &::placeholder {
+    color: $gray;
+    font-weight: 400;
+  }
+
+  &:focus {
+    border: 1px solid $primary;
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: $hover !important;
+    color: $background !important;
+    cursor: not-allowed;
+  }
+}

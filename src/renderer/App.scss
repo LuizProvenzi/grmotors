@@ -1,0 +1,39 @@
+@import '../../assets/colors.module.scss';
+
+html,
+body {
+  background-color: $background;
+}
+
+body {
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.layout {
+  background-color: $background;
+  height: 100vh;
+}
+
+.content {
+  padding-top: 17vh !important;
+  overflow-y: auto;
+  height: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $black;
+  border-radius: 4px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.link-no-underline {
+  text-decoration: none;
+}
