@@ -37,6 +37,8 @@ interface Car {
   return: boolean;
   image: any;
   expenses: any[];
+  owner: string;
+  plate: string;
 }
 
 interface FormValues {
@@ -50,6 +52,8 @@ interface FormValues {
   final_fipe: number;
   image?: File | null;
   expenses: Expense[];
+  owner: string;
+  plate: string;
 }
 
 export default function AddCar() {
@@ -69,6 +73,8 @@ export default function AddCar() {
         setValue('name', carData?.name);
         setValue('year', carData?.year);
         setValue('color', carData?.color);
+        setValue('owner', carData?.owner);
+        setValue('plate', carData?.plate);
         setValue(
           'available',
           carData?.available
@@ -84,8 +90,8 @@ export default function AddCar() {
         setValue(
           'return',
           carData?.return
-            ? { label: 'Comprado', value: '1' }
-            : { label: 'Pego em troca', value: '2' },
+            ? { label: 'Pego em troca', value: '2' }
+            : { label: 'Comprado', value: '1' },
         );
         setValue('initial_fipe', carData?.initial_fipe);
         setValue('final_fipe', carData?.final_fipe);
@@ -165,9 +171,11 @@ export default function AddCar() {
         color: values.color,
         initial_fipe: values.initial_fipe,
         final_fipe: values.final_fipe,
-        return: values.return.value === '1',
+        return: values.return.value === '1' ? false : true,
         image: imageUrl,
         expenses: values.expenses,
+        owner: values.owner,
+        plate: values.plate,
       };
 
       if (id && id !== 'false') {
@@ -222,181 +230,229 @@ export default function AddCar() {
         className="d-flex form-container flex-column"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="d-flex flex-wrap mb-4 gap-4">
-          <div className="form-group">
-            <Controller
-              name="name"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  label={<Text className="white f-2 bold mb-1">Nome</Text>}
-                  placeholder="Digite o nome do veículo"
-                  disabled={loading}
-                />
+        <div className="d-flex flex-column">
+          <div className="d-flex flex-wrap mb-4 gap-4">
+            <div className="form-group">
+              <Controller
+                name="name"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    label={<Text className="white f-2 bold mb-1">Nome</Text>}
+                    placeholder="Digite o nome do veículo"
+                    disabled={loading}
+                  />
+                )}
+              />
+              {errors.name && (
+                <Text className="text-danger">{errors.name.message}</Text>
               )}
-            />
-            {errors.name && (
-              <Text className="text-danger">{errors.name.message}</Text>
-            )}
-          </div>
+            </div>
 
-          <div className="form-group">
-            <Controller
-              name="year"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  type="number"
-                  label={<Text className="white f-2 bold mb-1">Ano</Text>}
-                  placeholder="Digite o ano"
-                  value={String(field.value)}
-                  disabled={loading}
-                />
+            <div className="form-group">
+              <Controller
+                name="plate"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    label={<Text className="white f-2 bold mb-1">Placa</Text>}
+                    placeholder="Digite a placa"
+                    disabled={loading}
+                  />
+                )}
+              />
+              {errors.plate && (
+                <Text className="text-danger">{errors.plate.message}</Text>
               )}
-            />
-            {errors.year && (
-              <Text className="text-danger">{errors.year.message}</Text>
-            )}
-          </div>
+            </div>
 
-          <div className="form-group">
-            <Controller
-              name="color"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  label={<Text className="white f-2 bold mb-1">Cor</Text>}
-                  placeholder="Digite a cor"
-                  disabled={loading}
-                />
+            <div className="form-group">
+              <Controller
+                name="year"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    type="number"
+                    label={<Text className="white f-2 bold mb-1">Ano</Text>}
+                    placeholder="Digite o ano"
+                    value={String(field.value)}
+                    disabled={loading}
+                  />
+                )}
+              />
+              {errors.year && (
+                <Text className="text-danger">{errors.year.message}</Text>
               )}
-            />
-            {errors.color && (
-              <Text className="text-danger">{errors.color.message}</Text>
-            )}
-          </div>
+            </div>
 
-          <div className="form-group">
-            <Controller
-              name="available"
-              control={control}
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  label={
-                    <Text className="white f-2 bold mb-1">Disponibilidade</Text>
-                  }
-                  disabled={loading}
-                  options={types}
-                  placeholder="Selecione a disponibilidade"
-                />
+            <div className="form-group">
+              <Controller
+                name="color"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    label={<Text className="white f-2 bold mb-1">Cor</Text>}
+                    placeholder="Digite a cor"
+                    disabled={loading}
+                  />
+                )}
+              />
+              {errors.color && (
+                <Text className="text-danger">{errors.color.message}</Text>
               )}
-            />
-            {errors.available && (
-              <Text className="text-danger">{errors.available.message}</Text>
-            )}
-          </div>
+            </div>
 
-          <div className="form-group">
-            <Controller
-              name="doc"
-              control={control}
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  label={
-                    <Text className="white f-2 bold mb-1">Documentação</Text>
-                  }
-                  disabled={loading}
-                  options={states}
-                  placeholder="Selecione o estado"
-                />
+            <div className="form-group">
+              <Controller
+                name="owner"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    label={
+                      <Text className="white f-2 bold mb-1">Proprietário</Text>
+                    }
+                    placeholder="Digite o proprietário"
+                    disabled={loading}
+                  />
+                )}
+              />
+              {errors.owner && (
+                <Text className="text-danger">{errors.owner.message}</Text>
               )}
-            />
-            {errors.doc && (
-              <Text className="text-danger">{errors.doc.message}</Text>
-            )}
-          </div>
+            </div>
 
-          <div className="form-group">
-            <Controller
-              name="return"
-              control={control}
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  label={<Text className="white f-2 bold mb-1">Situação</Text>}
-                  disabled={loading}
-                  options={situations}
-                  placeholder="Selecione a situação"
-                />
+            <div className="form-group">
+              <Controller
+                name="available"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    label={
+                      <Text className="white f-2 bold mb-1">
+                        Disponibilidade
+                      </Text>
+                    }
+                    disabled={loading}
+                    options={types}
+                    placeholder="Selecione a disponibilidade"
+                  />
+                )}
+              />
+              {errors.available && (
+                <Text className="text-danger">{errors.available.message}</Text>
               )}
-            />
-            {errors.return && (
-              <Text className="text-danger">{errors.return.message}</Text>
-            )}
-          </div>
+            </div>
 
-          <div className="form-group">
-            <Controller
-              name="initial_fipe"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  type="number"
-                  label={
-                    <Text className="white f-2 bold mb-1">Fipe inicial R$</Text>
-                  }
-                  placeholder="Digite a fipe inicial"
-                  value={String(field.value)}
-                  disabled={loading}
-                />
+            <div className="form-group">
+              <Controller
+                name="doc"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    label={
+                      <Text className="white f-2 bold mb-1">Documentação</Text>
+                    }
+                    disabled={loading}
+                    options={states}
+                    placeholder="Selecione o estado"
+                  />
+                )}
+              />
+              {errors.doc && (
+                <Text className="text-danger">{errors.doc.message}</Text>
               )}
-            />
-            {errors.initial_fipe && (
-              <Text className="text-danger">{errors.initial_fipe.message}</Text>
-            )}
-          </div>
+            </div>
 
-          <div className="form-group">
-            <Controller
-              name="final_fipe"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  type="number"
-                  label={
-                    <Text className="white f-2 bold mb-1">Fipe final R$</Text>
-                  }
-                  placeholder="Digite a fipe final"
-                  value={String(field.value)}
-                  disabled={loading}
-                />
+            <div className="form-group">
+              <Controller
+                name="return"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    label={
+                      <Text className="white f-2 bold mb-1">Situação</Text>
+                    }
+                    disabled={loading}
+                    options={situations}
+                    placeholder="Selecione a situação"
+                  />
+                )}
+              />
+              {errors.return && (
+                <Text className="text-danger">{errors.return.message}</Text>
               )}
-            />
-            {errors.final_fipe && (
-              <Text className="text-danger">{errors.final_fipe.message}</Text>
-            )}
-          </div>
+            </div>
 
-          <div className="form-group">
-            <Input
-              type="file"
-              className="clickable"
-              label={<Text className="white f-2 bold mb-1">Imagem</Text>}
-              placeholder="Selecione o arquivo"
-              accept="image/*"
-              onChange={handleImageChange}
-              disabled={loading}
-            />
-            {errors.image && (
-              <Text className="text-danger">{errors.image.message}</Text>
-            )}
+            <div className="form-group">
+              <Controller
+                name="initial_fipe"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    type="number"
+                    label={
+                      <Text className="white f-2 bold mb-1">
+                        Fipe inicial R$
+                      </Text>
+                    }
+                    placeholder="Digite a fipe inicial"
+                    value={String(field.value)}
+                    disabled={loading}
+                  />
+                )}
+              />
+              {errors.initial_fipe && (
+                <Text className="text-danger">
+                  {errors.initial_fipe.message}
+                </Text>
+              )}
+            </div>
+
+            <div className="form-group">
+              <Controller
+                name="final_fipe"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    type="number"
+                    label={
+                      <Text className="white f-2 bold mb-1">Fipe final R$</Text>
+                    }
+                    placeholder="Digite a fipe final"
+                    value={String(field.value)}
+                    disabled={loading}
+                  />
+                )}
+              />
+              {errors.final_fipe && (
+                <Text className="text-danger">{errors.final_fipe.message}</Text>
+              )}
+            </div>
+
+            <div className="form-group">
+              <Input
+                type="file"
+                className="clickable"
+                label={<Text className="white f-2 bold mb-1">Imagem</Text>}
+                placeholder="Selecione o arquivo"
+                accept="image/*"
+                onChange={handleImageChange}
+                disabled={loading}
+              />
+              {errors.image && (
+                <Text className="text-danger">{errors.image.message}</Text>
+              )}
+            </div>
           </div>
 
           <div className="expenses-section mb-4">

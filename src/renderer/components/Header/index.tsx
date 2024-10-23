@@ -32,7 +32,7 @@ export default function Header() {
         >
           <Icon name="PiCarProfile" size={50} />
 
-          <Text className="f-4 bold">Veículos</Text>
+          <Text className="f-4-menu bold">Veículos</Text>
         </div>
 
         <div
@@ -41,7 +41,7 @@ export default function Header() {
         >
           <Icon name="PiGarage" size={50} />
 
-          <Text className="f-4 bold">Garagem</Text>
+          <Text className="f-4-menu bold">Garagem</Text>
         </div>
 
         <div
@@ -50,7 +50,7 @@ export default function Header() {
         >
           <Icon name="PiListMagnifyingGlass" size={50} />
 
-          <Text className="f-4 bold">Relatórios</Text>
+          <Text className="f-4-menu bold">Relatórios</Text>
         </div>
       </div>
     </div>

@@ -1,4 +1,9 @@
-import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+  HashRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from 'react-router-dom';
 import './App.scss';
 import Cars from './pages/Cars';
 import Header from './components/Header';
@@ -14,6 +19,7 @@ export default function App() {
 
         <div className="content">
           <Routes>
+            <Route path="/" element={<Navigate to="/cars" />} />
             <Route path="/cars" element={<Cars />} />
             <Route path="/addCar/:id" element={<AddCar />} />
             <Route path="/car/:id" element={<CarDetails />} />

@@ -23,6 +23,8 @@ interface Car {
   return: boolean;
   image: string;
   expenses: any[];
+  owner: string;
+  plate: string;
 }
 
 interface Expenses {
@@ -146,32 +148,36 @@ export default function CarDetails() {
           <div className="d-flex flex-column ms-4">
             <Text className="f-5 bold">{car?.name}</Text>
 
-            <Text className="f-5 bold">{car?.year}</Text>
+            <Text className="f-4 bold">{car?.plate}</Text>
 
-            <Text className="f-5 bold">{car?.color}</Text>
+            <Text className="f-4 bold">{car?.year}</Text>
+
+            <Text className="f-4 bold">{car?.color}</Text>
+
+            <Text className="f-4 bold">{car?.owner}</Text>
 
             {car?.available ? (
-              <Text className="f-5 bold">Disponível</Text>
+              <Text className="f-4 bold">Disponível</Text>
             ) : (
-              <Text className="f-5 bold primary">Indisponível</Text>
+              <Text className="f-4 bold primary">Indisponível</Text>
             )}
 
             {car?.doc ? (
-              <Text className="f-5 bold">Documentação completa</Text>
+              <Text className="f-4 bold">Documentação completa</Text>
             ) : (
-              <Text className="f-5 bold primary">Documentação incompleta</Text>
+              <Text className="f-4 bold primary">Documentação incompleta</Text>
             )}
 
-            <Text className="f-5 bold">
+            <Text className="f-4 bold">
               {car?.return ? 'Pego em troca' : 'Comprado'}
             </Text>
 
             {car?.initial_fipe !== 0 && (
-              <Text className="f-5 bold">{`Fipe inicial: ${car?.initial_fipe && formatCurrency(car.initial_fipe)}`}</Text>
+              <Text className="f-4 bold">{`Fipe inicial: ${car?.initial_fipe && formatCurrency(car.initial_fipe)}`}</Text>
             )}
 
             {car?.final_fipe !== 0 && (
-              <Text className="f-5 bold">{`Fipe final: ${car?.final_fipe && formatCurrency(car.final_fipe)}`}</Text>
+              <Text className="f-4 bold">{`Fipe final: ${car?.final_fipe && formatCurrency(car.final_fipe)}`}</Text>
             )}
           </div>
         </div>
