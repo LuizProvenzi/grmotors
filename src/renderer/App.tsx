@@ -10,6 +10,7 @@ import Header from './components/Header';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AddCar from './pages/AddCar';
 import CarDetails from './pages/CarDetails';
+import Garage from './pages/Garage';
 
 export default function App() {
   return (
@@ -23,7 +24,7 @@ export default function App() {
             <Route path="/cars" element={<Cars />} />
             <Route path="/addCar/:id" element={<AddCar />} />
             <Route path="/car/:id" element={<CarDetails />} />
-            <Route path="/garage" element={<div>garagem</div>} />
+            <Route path="/garage" element={<Garage />} />
             <Route path="/exports" element={<div>relatorio</div>} />
           </Routes>
         </div>

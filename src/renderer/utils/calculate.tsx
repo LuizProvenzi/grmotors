@@ -24,3 +24,20 @@ export const calculate = (
 
   return { total, message };
 };
+
+export const calculateGarage = (
+  entries: { date: string; value: string; name: string }[],
+): { total: number } => {
+  const total = entries
+    .sort((a, b) => {
+      const dateA = a.date.split('/').reverse().join('-');
+      const dateB = b.date.split('/').reverse().join('-');
+      return new Date(dateA).getTime() - new Date(dateB).getTime();
+    })
+    .reduce((total, entry) => {
+      const value = parseFloat(entry.value);
+      return total + value;
+    }, 0);
+
+  return { total };
+};

@@ -20,6 +20,7 @@ interface Car {
   return: boolean;
   expenses: any[];
   image: string;
+  type: string;
 }
 
 export default function CarList() {
@@ -68,9 +69,9 @@ export default function CarList() {
         </div>
 
         <div className="d-flex flex-wrap gap-5 mt-3 justify-content-center">
-          {cars.map((car) => (
-            <Card key={car.id} car={car} />
-          ))}
+          {cars.map(
+            (car) => car.type !== 'garage' && <Card key={car.id} car={car} />,
+          )}
         </div>
       </div>
     </div>

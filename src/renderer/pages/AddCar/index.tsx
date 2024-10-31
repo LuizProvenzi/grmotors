@@ -223,7 +223,9 @@ export default function AddCar() {
   return (
     <div className="d-flex flex-column align-items-center">
       <div className="d-flex mt-3 mb-5 justify-content-start">
-        <Text className="white f-5">Criar novo veiculo</Text>
+        <Text className="white f-5 bold">
+          {id !== 'false' ? 'Editar veículo' : 'Criar novo veiculo'}
+        </Text>
       </div>
 
       <form
