@@ -12,12 +12,13 @@ import {
   where,
 } from 'firebase/firestore';
 import { formatCurrency } from '../../utils/format';
-import { calculateGarage } from '../../utils/calculate';
+import { calculate, calculateGarage } from '../../utils/calculate';
 import DataTable from '../../components/DataTable';
 import Icon from '../../components/Icon';
 import Input from '../../components/Input';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import Button from '../../components/Button';
+import { Select } from '../../components/Select';
 
 interface GarageDetails {
   id: string;
@@ -30,6 +31,7 @@ interface Expenses {
   name: string;
   value: number;
   date: string;
+  addition: { label: string; value: string };
 }
 
 export default function Garage() {
@@ -80,7 +82,11 @@ export default function Garage() {
       name: <Text className="gray-2 f-2 bold">Valor</Text>,
       render: (entity: Expenses) => (
         <Text className="gray-2 f-2">
-          {entity.value ? '- ' + formatCurrency(entity.value) : '-'}
+          {entity.value
+            ? entity.addition.value === 'true'
+              ? '+ ' + formatCurrency(entity.value)
+              : '- ' + formatCurrency(entity.value)
+            : '-'}
         </Text>
       ),
     },
@@ -106,8 +112,6 @@ export default function Garage() {
   const currentMonthName =
     monthNames[new Date().getMonth()] + '/' + currentYear;
 
-  const result = garage?.expenses ? calculateGarage(garage?.expenses) : null;
-
   const {
     control,
     handleSubmit,
@@ -120,6 +124,7 @@ export default function Garage() {
           name: '',
           date: '',
           value: 0,
+          addition: { label: 'Não', value: 'false' },
         },
       ],
     },
@@ -228,6 +233,8 @@ export default function Garage() {
     }
   }, [management]);
 
+  const result = garage?.expenses ? calculate(garage?.expenses) : null;
+
   return (
     <div className="d-flex justify-content-center mb-3">
       {management ? (
@@ -253,6 +260,7 @@ export default function Garage() {
                         label={
                           <Text className="white f-2 bold mb-1">Nome</Text>
                         }
+                        className="small-input"
                         placeholder="Nome"
                         disabled={loading}
                       />
@@ -268,6 +276,7 @@ export default function Garage() {
                         label={
                           <Text className="white f-2 bold mb-1">Data</Text>
                         }
+                        className="small-input"
                         placeholder="Data"
                         mask="00/00/0000"
                         disabled={loading}
@@ -285,7 +294,27 @@ export default function Garage() {
                         label={
                           <Text className="white f-2 bold mb-1">Valor R$</Text>
                         }
+                        className="small-input"
                         placeholder="Valor"
+                        disabled={loading}
+                      />
+                    )}
+                  />
+
+                  <Controller
+                    name={`expenses.${index}.addition` as const}
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        label={
+                          <Text className="white f-2 bold mb-1">Adição</Text>
+                        }
+                        small
+                        options={[
+                          { label: 'Sim', value: 'true' },
+                          { label: 'Não', value: 'false' },
+                        ]}
                         disabled={loading}
                       />
                     )}
@@ -307,6 +336,7 @@ export default function Garage() {
                     name: '',
                     date: '',
                     value: 0,
+                    addition: { label: 'Não', value: 'false' },
                   })
                 }
                 className="black-button"
@@ -384,9 +414,15 @@ export default function Garage() {
 
                 {result && (
                   <div className="d-flex">
-                    <Text className="f-5 bold primary">
-                      - {formatCurrency(result.total)}
-                    </Text>
+                    {result.message === 'positive' ? (
+                      <Text className="f-5 bold green">
+                        + {formatCurrency(result.total)}
+                      </Text>
+                    ) : (
+                      <Text className="f-5 bold primary">
+                        {formatCurrency(result.total)}
+                      </Text>
+                    )}
                   </div>
                 )}
               </div>

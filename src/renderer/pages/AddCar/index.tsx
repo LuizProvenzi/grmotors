@@ -1,4 +1,4 @@
-import { useForm, Controller, useWatch, useFieldArray } from 'react-hook-form';
+import { useForm, Controller, useFieldArray, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './schema';
 import { Select } from '../../components/Select';
@@ -36,6 +36,7 @@ interface Car {
   final_fipe: number;
   return: boolean;
   image: any;
+  atpv: any;
   expenses: any[];
   owner: string;
   plate: string;
@@ -51,6 +52,7 @@ interface FormValues {
   initial_fipe: number;
   final_fipe: number;
   image?: File | null;
+  atpv?: File | null;
   expenses: Expense[];
   owner: string;
   plate: string;
@@ -96,6 +98,7 @@ export default function AddCar() {
         setValue('initial_fipe', carData?.initial_fipe);
         setValue('final_fipe', carData?.final_fipe);
         setValue('image', carData?.image);
+        setValue('atpv', carData?.atpv);
         setValue('expenses', carData?.expenses);
       } else {
         console.error('Carro não encontrado!');
@@ -126,6 +129,14 @@ export default function AddCar() {
     control,
     name: 'expenses',
   });
+
+  const handleAtpvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      setValue('atpv', file);
+    }
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -163,6 +174,16 @@ export default function AddCar() {
         }
       }
 
+      let atpvUrl = '';
+
+      if (typeof values.atpv === 'string') {
+        atpvUrl = values.atpv;
+      } else {
+        if (values.atpv) {
+          atpvUrl = await uploadImage(values.atpv);
+        }
+      }
+
       const newCar = {
         available: values.available.value === '1',
         doc: values.doc.value === '1',
@@ -173,6 +194,7 @@ export default function AddCar() {
         final_fipe: values.final_fipe,
         return: values.return.value === '1' ? false : true,
         image: imageUrl,
+        atpv: atpvUrl,
         expenses: values.expenses,
         owner: values.owner,
         plate: values.plate,
@@ -453,6 +475,21 @@ export default function AddCar() {
               />
               {errors.image && (
                 <Text className="text-danger">{errors.image.message}</Text>
+              )}
+            </div>
+
+            <div className="form-group">
+              <Input
+                type="file"
+                className="clickable"
+                label={<Text className="white f-2 bold mb-1">ATPV</Text>}
+                placeholder="Selecione o arquivo"
+                accept="image/*"
+                onChange={handleAtpvChange}
+                disabled={loading}
+              />
+              {errors.atpv && (
+                <Text className="text-danger">{errors.atpv.message}</Text>
               )}
             </div>
           </div>

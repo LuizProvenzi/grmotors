@@ -5,6 +5,7 @@ import {
   RiDeleteBin7Line,
   RiPencilLine,
   RiCheckFill,
+  RiFileList2Line,
 } from 'react-icons/ri';
 import './styles.scss';
 
@@ -23,6 +24,7 @@ const iconComponents: Record<string, React.ElementType> = {
   RiDeleteBin7Line,
   RiPencilLine,
   RiCheckFill,
+  RiFileList2Line,
 };
 
 const Icon: React.FC<IconProps> = ({ name, size, onClick }: IconProps) => {

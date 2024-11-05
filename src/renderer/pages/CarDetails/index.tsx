@@ -10,6 +10,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import { useEffect, useState } from 'react';
+import Modal from '../../components/Modal';
 
 interface Car {
   id: string;
@@ -22,6 +23,7 @@ interface Car {
   final_fipe: number;
   return: boolean;
   image: string;
+  atpv: string;
   expenses: any[];
   owner: string;
   plate: string;
@@ -37,6 +39,7 @@ interface Expenses {
 export default function CarDetails() {
   const { id } = useParams<{ id: string }>();
   const [car, setCar] = useState<Car | null>(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -123,7 +126,11 @@ export default function CarDetails() {
         <div className="d-flex justify-content-between align-items-center mb-3">
           <Text className="f-5 bold white">Detalhes do veículo</Text>
 
-          <div className="d-flex gap-2">
+          <div className="d-flex gap-2 align-items-center">
+            <Button className="black-button" onClick={() => setShowModal(true)}>
+              <Icon name="RiFileList2Line" size={23} />
+            </Button>
+
             <Link to={`/addCar/${id}`} className="link-no-underline">
               <Button className="black-button">
                 <Icon name="RiPencilLine" size={25} />
@@ -131,17 +138,17 @@ export default function CarDetails() {
             </Link>
 
             <Button className="black-button" onClick={() => deleteCar(id)}>
-              <Icon name="RiDeleteBin7Line" size={25} />
+              <Icon name="RiDeleteBin7Line" size={23} />
             </Button>
 
             <Button className="black-button" onClick={goToCars}>
-              <Icon name="RiCloseFill" size={25} />
+              <Icon name="RiCloseFill" size={32} />
             </Button>
           </div>
         </div>
 
         <div className="d-flex">
-          <div className="d-flex flex-column car-img position-relativcar-img">
+          <div className="d-flex flex-column car-img">
             <img src={car?.image ? car.image : carProfile} alt="Carro" />
           </div>
 
@@ -214,6 +221,25 @@ export default function CarDetails() {
           </div>
         )}
       </div>
+
+      <Modal show={showModal}>
+        <div className="d-flex flex-column gap-3 atpv-modal">
+          <div className="d-flex justify-content-between">
+            <Text className="f-5 bold white">ATPV</Text>
+
+            <Button
+              className="black-button"
+              onClick={() => setShowModal(false)}
+            >
+              <Icon name="RiCloseFill" size={25} />
+            </Button>
+          </div>
+
+          <div className="d-flex flex-column img-container">
+            <img src={car?.atpv} alt="Sem ATPV cadastrado." />
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

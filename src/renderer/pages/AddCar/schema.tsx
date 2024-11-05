@@ -22,6 +22,7 @@ export const schema = yup.object().shape({
     .typeError('Fipe final deve ser um número válido')
     .default(0),
   image: yup.mixed().nullable(),
+  atpv: yup.mixed().nullable(),
   plate: yup.string().required('Placa é obrigatória'),
   owner: yup.string().required('Proprietário é obrigatório'),
 });

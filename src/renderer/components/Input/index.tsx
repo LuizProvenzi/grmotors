@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useState, useRef } from 'react';
 import './styles.scss';
 import { IMaskInput } from 'react-imask';
 
@@ -16,18 +16,22 @@ export interface InputProps
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({
-    className,
-    label,
-    placeholder,
-    fluid,
-    onChange,
-    value,
-    disabled,
-    type,
-    mask,
-  }) => {
+  (
+    {
+      className,
+      label,
+      placeholder,
+      fluid,
+      onChange,
+      value,
+      disabled,
+      type,
+      mask,
+    },
+    ref,
+  ) => {
     const [fileName, setFileName] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (onChange) {
@@ -41,12 +45,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     const handleFileButtonClick = () => {
-      const fileInput = document.querySelector(
-        'input[type="file"]',
-      ) as HTMLInputElement | null;
-      if (fileInput) {
-        fileInput.click();
-      }
+      fileInputRef.current?.click();
     };
 
     return (
@@ -55,7 +54,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         <div className="custom-file-input-wrapper">
           <IMaskInput
-            type={type ? type : 'text'}
+            type={type !== 'file' ? type : 'text'}
             placeholder={placeholder}
             className={`${className} custom-input`}
             style={{ width: fluid ? '100%' : '290px' }}
@@ -79,6 +78,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               <input
                 type="file"
                 className="file-input-hidden"
+                ref={fileInputRef}
                 onChange={handleInputChange}
                 disabled={disabled}
               />

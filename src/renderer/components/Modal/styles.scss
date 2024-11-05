@@ -1,0 +1,22 @@
+@import '../../../../assets/colors.module.scss';
+
+.modal-background {
+  background-color: $black !important;
+}
+
+.modal-content {
+  background-color: black !important;
+  border-radius: 16px !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.auto-width-modal .modal-dialog {
+  max-width: fit-content;
+  width: auto !important;
+  margin: auto;
+}
+
+.auto-width-modal .modal-content {
+  display: inline-block;
+}
