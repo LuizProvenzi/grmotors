@@ -1,4 +1,5 @@
 import { PiCarProfile, PiGarage, PiListMagnifyingGlass } from 'react-icons/pi';
+import { LuCalendar } from 'react-icons/lu';
 import {
   RiAddFill,
   RiCloseFill,
@@ -6,12 +7,16 @@ import {
   RiPencilLine,
   RiCheckFill,
   RiFileList2Line,
+  RiSearchLine,
+  RiArrowDropLeftLine,
+  RiArrowDropRightLine,
 } from 'react-icons/ri';
 import './styles.scss';
 
 interface IconProps {
   name: keyof typeof iconComponents;
   size?: number;
+  disabled?: boolean;
   onClick?: () => void;
 }
 
@@ -25,9 +30,18 @@ const iconComponents: Record<string, React.ElementType> = {
   RiPencilLine,
   RiCheckFill,
   RiFileList2Line,
+  RiSearchLine,
+  LuCalendar,
+  RiArrowDropLeftLine,
+  RiArrowDropRightLine,
 };
 
-const Icon: React.FC<IconProps> = ({ name, size, onClick }: IconProps) => {
+const Icon: React.FC<IconProps> = ({
+  name,
+  size,
+  onClick,
+  disabled,
+}: IconProps) => {
   const SelectedIcon = iconComponents[name];
 
   if (!SelectedIcon) {
@@ -37,8 +51,8 @@ const Icon: React.FC<IconProps> = ({ name, size, onClick }: IconProps) => {
   return (
     <SelectedIcon
       size={size || '24px'}
-      onClick={onClick}
-      className={`custom-icon ${onClick ? 'clickable' : ''}`}
+      onClick={!disabled && onClick}
+      className={`custom-icon ${onClick && !disabled ? 'clickable' : ''} ${disabled ? 'disable-icon' : ''}`}
     />
   );
 };

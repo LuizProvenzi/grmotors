@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AddCar from './pages/AddCar';
 import CarDetails from './pages/CarDetails';
 import Garage from './pages/Garage';
+import Exports from './pages/Exports';
 
 export default function App() {
   return (
@@ -25,7 +26,7 @@ export default function App() {
             <Route path="/addCar/:id" element={<AddCar />} />
             <Route path="/car/:id" element={<CarDetails />} />
             <Route path="/garage" element={<Garage />} />
-            <Route path="/exports" element={<div>relatorio</div>} />
+            <Route path="/exports" element={<Exports />} />
           </Routes>
         </div>
       </Router>

@@ -3,3 +3,9 @@
 .custom-icon {
   color: $gray;
 }
+
+.disable-icon {
+  cursor: context-menu;
+  color: $background;
+  pointer-events: none;
+}
